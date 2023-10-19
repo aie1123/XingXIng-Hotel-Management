@@ -1,0 +1,266 @@
+﻿using Dapper;
+using StudentWeb.IDAL;
+using StudentWeb.Model;
+using StudentWeb.Common;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+
+namespace StudentWeb.DAL
+{
+	/// <summary>
+	/// UserData的数据操作类
+	/// </summary>
+	public partial class UserDataDAO : IUserDataDAO
+	{
+        #region 添加单条记录
+        /// <summary>
+		/// 添加单条记录
+		/// </summary>
+		/// <param name="userData">实体</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        public int Insert(UserData userData, IDbTransaction trans = null)
+        {
+            var sql = "INSERT INTO UserData(UserAccount, UserGender, UserName, UserPassword, UserPhone, UserAvatar) VALUES (@UserAccount, @UserGender, @UserName, @UserPassword, @UserPhone, @UserAvatar);SELECT CAST(SCOPE_IDENTITY() AS int)";
+
+            if (trans != null)
+            {
+                var conn = trans.Connection;
+                var userID = conn.Query<int>(sql, userData, trans).Single();
+                userData.UserID = userID;
+                var result = 1;
+                return result;
+            }
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                conn.Open();
+                var userID = conn.Query<int>(sql, userData).Single();
+                userData.UserID = userID;
+                var result = 1;
+                conn.Close();
+                return result;
+            }
+        }
+        #endregion
+        #region 添加多条记录
+        /// <summary>
+		/// 添加多条记录
+		/// </summary>
+		/// <param name="list">列表</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        public int Insert(List<UserData> list, IDbTransaction trans = null)
+        {
+            var sql = "INSERT INTO UserData(UserAccount, UserGender, UserName, UserPassword, UserPhone, UserAvatar) VALUES (@UserAccount, @UserGender, @UserName, @UserPassword, @UserPhone, @UserAvatar)";
+            var result = 0;
+            if (trans != null)
+            {
+                var conn = trans.Connection;
+                result = conn.Execute(sql, list, trans);
+                return result;
+            }
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                conn.Open();
+                result = conn.Execute(sql, list);
+                conn.Close();
+                return result;
+            }
+        }
+        #endregion
+        #region 编辑单条记录
+        /// <summary>
+		/// 编辑单条记录
+		/// </summary>
+		/// <param name="userData">实体</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        public int Update(UserData userData, IDbTransaction trans = null)
+        {
+            var sql = "UPDATE UserData SET UserAccount = @UserAccount, UserGender = @UserGender, UserName = @UserName, UserPassword = @UserPassword, UserPhone = @UserPhone, UserAvatar = @UserAvatar WHERE UserID = @UserID";
+            var result = 0;
+            if (trans != null)
+            {
+                var conn = trans.Connection;
+                result = conn.Execute(sql, userData, trans);
+                return result;
+            }
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                conn.Open();
+                result = conn.Execute(sql, userData);
+                conn.Close();
+                return result;
+            }
+        }
+        #endregion
+        #region 编辑多条记录
+        /// <summary>
+		/// 编辑多条记录
+		/// </summary>
+		/// <param name="list">实体列表</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        public int Update(List<UserData> list, IDbTransaction trans = null)
+        {
+            var sql = "UPDATE UserData SET UserAccount = @UserAccount, UserGender = @UserGender, UserName = @UserName, UserPassword = @UserPassword, UserPhone = @UserPhone, UserAvatar = @UserAvatar WHERE UserID = @UserID";
+            var result = 0;
+            if (trans != null)
+            {
+                var conn = trans.Connection;
+                result = conn.Execute(sql, list, trans);
+                return result;
+            }
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                conn.Open();
+                result = conn.Execute(sql, list);
+                conn.Close();
+                return result;
+            }
+        }
+        #endregion
+        #region 删除单条记录
+        /// <summary>
+		/// 删除单条记录
+		/// </summary>
+		/// <param name="userID">主键</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        public int Delete(int userID, IDbTransaction trans = null)
+        {
+            var sql = "DELETE UserData WHERE UserID = @UserID";
+            var result = 0;
+            if (trans != null)
+            {
+                var conn = trans.Connection;
+                result = conn.Execute(sql, new { UserID = userID }, trans);
+                return result;
+            }
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                conn.Open();
+                result = conn.Execute(sql, new { UserID = userID });
+                conn.Close();
+                return result;
+            }
+        }
+        #endregion
+        #region 删除单条记录
+        /// <summary>
+		/// 删除单条记录
+		/// </summary>
+		/// <param name="userData">实体</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        public int Delete(UserData userData, IDbTransaction trans = null)
+        {
+            var sql = "DELETE UserData WHERE UserID = @UserID";
+            var result = 0;
+            if (trans != null)
+            {
+                var conn = trans.Connection;
+                result = conn.Execute(sql, userData, trans);
+                return result;
+            }
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                conn.Open();
+                result = conn.Execute(sql, userData);
+                conn.Close();
+                return result;
+            }
+        }
+        #endregion
+        #region 获取单条记录
+        /// <summary>
+		/// 获取单条记录
+		/// </summary>
+		/// <param name="userID">主键</param>
+		/// <returns>实体</returns>
+        public UserData GetInfo(int userID)
+        {
+            var sql = "SELECT * FROM UserData WHERE UserID = @UserID";
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                var model = conn.QueryFirstOrDefault<UserData>(sql, new { UserID = userID });
+                return model;
+            }
+        }
+        #endregion
+        #region 获取全部记录列表
+        /// <summary>
+		/// 获取全部记录列表
+		/// </summary>
+		/// <returns>实体列表</returns>
+        public List<UserData> GetList()
+        {
+            var sql = "SELECT * FROM UserData";
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                var q = conn.Query<UserData>(sql);
+                return q.ToList();
+            }
+        }
+        #endregion
+        #region 分页列表
+        /// <summary>
+        /// 分页列表
+        /// </summary>
+        /// <param name="pageIndex">当前页</param>
+        /// <param name="pageSize">页面大小</param>
+        /// <param name="orderBy">排序规则</param>
+        /// <param name="whereClause">条件语句</param>
+        /// <returns>分页列表</returns>
+        public PagedList<UserData> GetList(int pageIndex, int pageSize, string whereClause = null, string orderBy = null)
+        {
+            pageIndex--;
+            if (!string.IsNullOrEmpty(whereClause))
+            {
+                whereClause = " WHERE " + whereClause;
+            }
+            if (string.IsNullOrEmpty(orderBy))
+            {
+                orderBy = "UserID DESC";
+            }
+            var startItem = pageIndex * pageSize + 1;
+            var endItem = (pageIndex + 1) * pageSize;
+
+            var sql = $@"SELECT COUNT(UserID) FROM UserData {whereClause} 
+SELECT *
+FROM(SELECT ROW_NUMBER() OVER(ORDER BY {orderBy}) AS RowNum, *
+          FROM UserData
+          {whereClause}
+        ) AS result
+WHERE RowNum >= {startItem}
+    AND RowNum <= {endItem}
+ORDER BY RowNum";
+            using (var conn = ConnectionFactory.CreateConnection())
+            {
+                conn.Open();
+                int count = 0;
+                var list = new List<UserData>();
+                using (var q = conn.QueryMultiple(sql))
+                {
+                    count = q.Read<int>().Single();
+                    list = q.Read<UserData>().ToList();
+                }
+                conn.Close();
+
+                var pagedList = new PagedList<UserData>(list, pageIndex, pageSize, count);
+                return pagedList;
+            }
+        }
+        #endregion
+        #region 数据操作类
+		/// <summary>
+		/// UserData的数据操作类
+		/// </summary>
+		public UserDataDAO()
+		{
+		}
+        #endregion
+	}
+}
+

@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1525
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Document", "0.Document", "{C9970BD9-331D-417A-9E66-13D5D373BE71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Common", "1.Common", "{7F2D66DC-2268-48A2-834E-0D145ADAA6A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Infrastructure(基础设施层）", "2.Infrastructure(基础设施层）", "{CA7AD8AC-FFCD-43F3-8BFB-F5B726F548C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Core(核心业务层)", "3.Core(核心业务层)", "{1931474E-A9F3-445F-A1AB-11EDAF92F1D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Presentation(界面层)", "4.Presentation(界面层)", "{7B972DB6-B6B9-4548-9B20-D80554A8B638}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{982CDB71-EA13-45A8-B4B0-3DB4C225E3B4}"
+	ProjectSection(SolutionItems) = preProject
+		Templates\Auto.cst = Templates\Auto.cst
+		Templates\EntityDAO.cst = Templates\EntityDAO.cst
+		Templates\IEntityDAO.cst = Templates\IEntityDAO.cst
+		Templates\Model.cst = Templates\Model.cst
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentWeb.DAL", "StudentWeb.DAL\StudentWeb.DAL.csproj", "{73216908-8A4F-42C4-B587-2C43D0D07EBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentWeb.IDAL", "StudentWeb.IDAL\StudentWeb.IDAL.csproj", "{4D5F55AE-A3EC-43F8-8978-2B6F6CD98BD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentWeb.Model", "StudentWeb.Model\StudentWeb.Model.csproj", "{5E97C79A-2CCD-4212-8D6E-01EDFFA12643}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentWeb.BLL", "StudentWeb.BLL\StudentWeb.BLL.csproj", "{72EF53A4-5D51-437C-BC6F-F530FD73D0A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentWeb.Api", "StudentWeb.Api\StudentWeb.Api.csproj", "{E2958DC8-517C-4C20-9C7C-AE6DE3D21CEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentWeb.Common", "StudentWeb.Common\StudentWeb.Common.csproj", "{6F082EE1-797D-4D0B-AAA7-F5A00BA5A7B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73216908-8A4F-42C4-B587-2C43D0D07EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73216908-8A4F-42C4-B587-2C43D0D07EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73216908-8A4F-42C4-B587-2C43D0D07EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73216908-8A4F-42C4-B587-2C43D0D07EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D5F55AE-A3EC-43F8-8978-2B6F6CD98BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D5F55AE-A3EC-43F8-8978-2B6F6CD98BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D5F55AE-A3EC-43F8-8978-2B6F6CD98BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D5F55AE-A3EC-43F8-8978-2B6F6CD98BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E97C79A-2CCD-4212-8D6E-01EDFFA12643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E97C79A-2CCD-4212-8D6E-01EDFFA12643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E97C79A-2CCD-4212-8D6E-01EDFFA12643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E97C79A-2CCD-4212-8D6E-01EDFFA12643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72EF53A4-5D51-437C-BC6F-F530FD73D0A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72EF53A4-5D51-437C-BC6F-F530FD73D0A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72EF53A4-5D51-437C-BC6F-F530FD73D0A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72EF53A4-5D51-437C-BC6F-F530FD73D0A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2958DC8-517C-4C20-9C7C-AE6DE3D21CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2958DC8-517C-4C20-9C7C-AE6DE3D21CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2958DC8-517C-4C20-9C7C-AE6DE3D21CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2958DC8-517C-4C20-9C7C-AE6DE3D21CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F082EE1-797D-4D0B-AAA7-F5A00BA5A7B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F082EE1-797D-4D0B-AAA7-F5A00BA5A7B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F082EE1-797D-4D0B-AAA7-F5A00BA5A7B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F082EE1-797D-4D0B-AAA7-F5A00BA5A7B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{982CDB71-EA13-45A8-B4B0-3DB4C225E3B4} = {C9970BD9-331D-417A-9E66-13D5D373BE71}
+		{73216908-8A4F-42C4-B587-2C43D0D07EBF} = {CA7AD8AC-FFCD-43F3-8BFB-F5B726F548C4}
+		{4D5F55AE-A3EC-43F8-8978-2B6F6CD98BD8} = {CA7AD8AC-FFCD-43F3-8BFB-F5B726F548C4}
+		{5E97C79A-2CCD-4212-8D6E-01EDFFA12643} = {CA7AD8AC-FFCD-43F3-8BFB-F5B726F548C4}
+		{72EF53A4-5D51-437C-BC6F-F530FD73D0A1} = {1931474E-A9F3-445F-A1AB-11EDAF92F1D0}
+		{E2958DC8-517C-4C20-9C7C-AE6DE3D21CEC} = {7B972DB6-B6B9-4548-9B20-D80554A8B638}
+		{6F082EE1-797D-4D0B-AAA7-F5A00BA5A7B8} = {7F2D66DC-2268-48A2-834E-0D145ADAA6A9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71450A01-0207-472C-8392-6EF8BAB8BF29}
+	EndGlobalSection
+EndGlobal

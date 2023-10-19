@@ -1,0 +1,83 @@
+﻿<%-- 
+Name	:
+Author	: 
+Description: This template generates a simplistic entity object.  It can only be used from
+   the master since the property grid does not support selecting an individual element.
+--%>
+<%@ CodeTemplate Language="C#" ResponseEncoding="UTF-8" TargetLanguage="C#" Debug="False" Description="Creates a simplistic entity object." %>
+<%@ Register Name="Tools" Template="../Tools.cst" MergeProperties="False" ExcludeProperties="" %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the stored procedures should be based on." %>
+<%@ Property Name="NameSpace" Type="String" Category="Context" Description="" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+using System;
+using StudentWeb.Common;
+
+namespace <%=NameSpace%>.Model
+{
+	/// <summary>
+	/// <%= SourceTable.Name %>
+	/// </summary>
+    [Serializable]
+	public class <%= SourceTable.Name %>
+	{
+		<% for (int i = 0; i < SourceTable.Columns.Count; i++) { %>
+		/// <summary>
+		/// <% GetDescription(SourceTable.Columns[i]); %>
+        /// </summary>
+        [FieldName("<% GetDescription(SourceTable.Columns[i]); %>")]		
+		public <%= Tools.GetCSDataType(SourceTable.Columns[i]) %> <%= SourceTable.Columns[i].Name %>
+		{
+			get;
+			set;
+		}
+        
+		<% } %>
+        public <%= SourceTable.Name %> Clone()
+        {
+            return (<%= SourceTable.Name %>)this.MemberwiseClone();
+        }
+        
+        public <%= SourceTable.Name %>()
+        {
+            <% for (int i = 0; i < SourceTable.Columns.Count; i++) { %>
+            <% if(Tools.GetCSDataType(SourceTable.Columns[i]) == "string"){%>
+            <%= StringUtil.ToPascalCase(SourceTable.Columns[i].Name) %> = string.Empty;
+            <% } %>            
+            <% if(Tools.GetCSDataType(SourceTable.Columns[i]) == "DateTime"){%>
+            <%= StringUtil.ToPascalCase(SourceTable.Columns[i].Name) %> = ConvertHelper.DefaultDate;
+            <% } %>
+            <% if(Tools.GetCSDataType(SourceTable.Columns[i]) == "int"){
+                if (SourceTable.Columns[i].ExtendedProperties["CS_Default"] != null)
+                {
+                  var defaultStr = SourceTable.Columns[i].ExtendedProperties["CS_Default"].Value.ToString().Replace("(", "").Replace(")", "").Replace("'", "");
+                  if(string.IsNullOrEmpty(defaultStr))
+                  {
+                      defaultStr = "0";
+                  } 
+                  if(defaultStr != "0"){
+                    var str = StringUtil.ToPascalCase(SourceTable.Columns[i].Name) + " = " + defaultStr + ";";
+            %>
+            <%= str %>
+            <%    }             
+                }
+            %>
+            <% } %>    
+            <% } %>
+        }
+	}
+}
+
+<script runat="template">
+    public void GetDescription(ColumnSchema column)
+    {
+        if(column.Description.Length > 0) 
+        {
+            Response.Write(column.Description.Replace("\r\n",";"));
+        }
+        else
+        {
+            Response.Write(column.Name);
+        }
+    }
+</script>

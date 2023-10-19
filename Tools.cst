@@ -1,0 +1,99 @@
+﻿<%-- 
+Name:
+Author: Bao Xubin
+Description: 
+--%>
+<%@ CodeTemplate Language="C#" TargetLanguage="Text" Src="" Inherits="" Debug="False" Description="Template description here." %>
+<%@ Property Name="SampleStringProperty" Type="System.String" Default="SomeValue" Optional="True" Category="Strings" Description="This is a sample string property." %>
+<%@ Property Name="SampleBooleanProperty" Type="System.Boolean" Default="True" Optional="False" Category="Booleans" Description="This is a sample boolean property." %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<script runat="template">
+// My methods here.
+public static string GetCSDataType(ColumnSchema column)
+{
+       switch (column.DataType)
+       {
+              case DbType.AnsiString: return "string";
+              case DbType.AnsiStringFixedLength: return "string";
+              case DbType.Binary: return "byte[]";
+              case DbType.Boolean: return "bool";
+              case DbType.Byte: return "byte";
+              case DbType.Currency: return "decimal";
+              case DbType.Date: 
+//               if(column.AllowDBNull)
+//               {
+//                   return "DateTime?";
+//               }
+               return "DateTime";
+              case DbType.DateTime: 
+//               if(column.AllowDBNull)
+//               {
+//                   return "DateTime?";
+//               }
+               return "DateTime";
+              case DbType.Decimal: return "decimal";
+              case DbType.Double: return "double";
+              case DbType.Guid: return "Guid";
+              case DbType.Int16: 
+               if(column.AllowDBNull)
+               {
+                   return "short?";
+               }
+               return "short";
+              case DbType.Int32: 
+               if(column.AllowDBNull)
+               {
+                   return "int?";
+               }
+               return "int";
+              case DbType.Int64: 
+               if(column.AllowDBNull)
+               {
+                   return "long?";
+               }
+               return "long";
+              case DbType.Object: return "object";
+              case DbType.SByte: return "sbyte";
+              case DbType.Single: 
+               if(column.AllowDBNull)
+               {
+                   return "float?";
+               }
+               return "float";
+              case DbType.String: return "string";
+              case DbType.StringFixedLength: return "string";
+              case DbType.Time: return "TimeSpan";
+              case DbType.UInt16: return "ushort";
+              case DbType.UInt32: return "uint";
+              case DbType.UInt64: return "ulong";
+              case DbType.VarNumeric: return "decimal";
+              default:
+              {
+                     return "__UNKNOWN__" + column.NativeType;
+              }
+       }
+}
+
+public static string GetAlinqDbType(ColumnSchema column)
+{
+    
+    switch (column.DataType)
+       {
+              case DbType.Binary: return "Binary";
+              case DbType.DateTime: return "Date";
+              case DbType.Int32: return "Integer";
+              case DbType.String: 
+                if (column.Size == 16 && column.NativeType.ToLower().EndsWith("text"))
+                    return "WChar";
+                else
+                    return string.Format("WChar({0})",column.Size);             
+              default:
+              {
+                     return "__UNKNOWN__" + column.NativeType;
+              }
+       }
+}
+</script>

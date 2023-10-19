@@ -1,0 +1,100 @@
+﻿<%-- 
+Name:
+Author: 
+Description: 
+--%>
+<%@ Template Language="C#" TargetLanguage="C#" %>
+<%@ Register Name="Tools" Template="../Tools.cst" MergeProperties="False" ExcludeProperties="" %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the stored procedures should be based on." %>
+<%@ Property Name="NameSpace" Type="String" Category="Context" Description="" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<% %>
+
+using System.Collections.Generic;
+using System.Data;
+using <%=NameSpace%>.Model;
+using <%=NameSpace%>.Common;
+
+namespace <%=NameSpace%>.IDAL
+{
+    public partial interface I<%=SourceTable.Name%>DAO
+    {
+        /// <summary>
+		/// 添加单条记录
+		/// </summary>
+		/// <param name="<% =StringUtil.ToCamelCase(SourceTable.Name) %>">实体</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        int Insert(<%=SourceTable.Name%> <%=StringUtil.ToCamelCase(SourceTable.Name)%>, IDbTransaction trans = null);
+        
+        /// <summary>
+		/// 添加多条记录
+		/// </summary>
+		/// <param name="list">列表</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        int Insert(List<<%=SourceTable.Name%>> list, IDbTransaction trans = null);
+        
+        /// <summary>
+		/// 编辑单条记录
+		/// </summary>
+		/// <param name="<% =StringUtil.ToCamelCase(SourceTable.Name) %>">实体</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        int Update(<%=SourceTable.Name%> <%=StringUtil.ToCamelCase(SourceTable.Name)%>, IDbTransaction trans = null);
+        
+        /// <summary>
+		/// 编辑多条记录
+		/// </summary>
+		/// <param name="list">实体列表</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        int Update(List<<%=SourceTable.Name%>> list, IDbTransaction trans = null);
+        
+        /// <summary>
+		/// 删除单条记录
+		/// </summary>
+		/// <param name="<%= StringUtil.ToCamelCase(SourceTable.PrimaryKey.MemberColumns[0].Name) %>">主键</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        int Delete(int <%= StringUtil.ToCamelCase(SourceTable.PrimaryKey.MemberColumns[0].Name) %>, IDbTransaction trans = null);
+        
+        /// <summary>
+		/// 删除单条记录
+		/// </summary>
+		/// <param name="<%= StringUtil.ToCamelCase(SourceTable.Name) %>">实体</param>
+        /// <param name="trans">事务</param>
+		/// <returns>影响行数</returns>
+        int Delete(<%=SourceTable.Name%> <%=StringUtil.ToCamelCase(SourceTable.Name)%>, IDbTransaction trans = null);
+        
+        /// <summary>
+		/// 获取单条记录
+		/// </summary>
+		/// <param name="<%= StringUtil.ToCamelCase(SourceTable.PrimaryKey.MemberColumns[0].Name) %>">主键</param>
+		/// <returns>实体</returns>
+        <%=SourceTable.Name%> GetInfo(int <%= StringUtil.ToCamelCase(SourceTable.PrimaryKey.MemberColumns[0].Name) %>);
+             
+        /// <summary>
+		/// 获取列表
+		/// </summary>
+		/// <returns>实体列表</returns>
+        List<<%=SourceTable.Name%>> GetList();
+        
+        /// <summary>
+        /// 分页列表
+        /// </summary>
+        /// <param name="pageIndex">当前页</param>
+        /// <param name="pageSize">页面大小</param>
+        /// <param name="orderBy">排序规则</param>
+        /// <param name="whereClause">条件语句</param>
+        /// <returns>分页列表</returns>
+        PagedList<<%=SourceTable.Name%>> GetList(int pageIndex, int pageSize, string whereClause = null, string orderBy = null);
+    }
+}
+
+<script runat="template">
+// My methods here.
+</script>

@@ -1,0 +1,99 @@
+﻿<%-- 
+Name	: AutoEntity.cst
+Author	: Guilee
+Description: This template generates a simplistic entity object.  It can only be used from
+   the master since the property grid does not support selecting an individual element.
+--%>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Debug="False" Description="Creates a simplistic entity business object." %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+<%@ Assembly Name="System.Design" %>
+<%@ Import NameSpace="System.IO" %>
+<%@ Register Name="ModelTemplate" Template="Model.cst" %>
+<%@ Register Name="IDAOTemplate" Template="IEntityDAO.cst" %>
+<%@ Register Name="DAOTemplate" Template="EntityDAO.cst" %>
+
+
+<script runat="template">
+private string _outputDirectory = String.Empty;
+private TableSchemaCollection _sourceTables;
+private string _nameSpace;
+
+[Editor(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))] 
+[Optional]
+[Category("Output")]
+[Description("The directory to output the results to.")]
+public string OutputDirectory 
+{
+	get
+	{
+		// default to the directory that the template is located in
+		if (_outputDirectory.Length == 0) return "output\\";
+		
+		return _outputDirectory;
+	}
+	set
+	{
+		_outputDirectory = value;
+	}
+}
+
+public override void Render(TextWriter writer)
+{
+	string outputDirectory = Path.Combine(this.CodeTemplateInfo.DirectoryName, _outputDirectory);
+	if (!outputDirectory.EndsWith("\\")) outputDirectory += "\\";
+	if (!Directory.Exists(outputDirectory)) Directory.CreateDirectory(outputDirectory);
+	
+	for(int i=0 ; i < SourceTables.Count ; i ++)
+	{
+		Trace.WriteLine("Generating entity source (" + SourceTables[i].Name + ".cs" + ") for " + SourceTables[i].Name + "...");
+		ModelTemplate entityTemplate = new ModelTemplate();
+		entityTemplate.SourceTable = SourceTables[i];
+        entityTemplate.NameSpace = NameSpace;
+		
+		// Use a preserve regions merge strategy to preserve all of the custom regions in our entity classes when they are re-generated.
+		PreserveRegionsMergeStrategy strategy = new PreserveRegionsMergeStrategy("^[ \t]*(?i:Custom)", "C#");
+		entityTemplate.RenderToFile(outputDirectory + NameSpace + ".Model\\" + SourceTables[i].Name + ".cs", strategy);        
+        
+		IDAOTemplate iDaoTemplate = new IDAOTemplate();
+		iDaoTemplate.SourceTable = SourceTables[i];
+        iDaoTemplate.NameSpace = NameSpace;		
+		iDaoTemplate.RenderToFile(outputDirectory + NameSpace + ".IDAL\\I" + SourceTables[i].Name + "DAO.cs", strategy);
+        
+        DAOTemplate daoTemplate = new DAOTemplate();
+		daoTemplate.SourceTable = SourceTables[i];
+        daoTemplate.NameSpace = NameSpace;
+		daoTemplate.RenderToFile(outputDirectory + NameSpace + ".DAL\\" + SourceTables[i].Name + "DAO.cs", strategy);
+	}
+}
+
+	[Category("DataSource")]
+	[Description("The tables to generate.")]
+	[Optional()]
+	public TableSchemaCollection SourceTables
+	{
+		get
+		{
+			if (this._sourceTables != null && this._sourceTables.Count > 0 )
+				return this._sourceTables;
+			else
+				return null;
+		}
+		set
+		{
+			this._sourceTables = value;
+		}
+	}
+    
+    [Category("DataSource")]
+	[Description("namespace.")]
+	[Optional()]
+    public string NameSpace
+    {
+        get{return _nameSpace;}
+        set{_nameSpace = value;}
+    }
+</script>
+
